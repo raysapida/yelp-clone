@@ -3,11 +3,17 @@ require 'rails_helper'
 RSpec.describe RestaurantsController, type: :controller do
 
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {name: 'Example',
+     phone: '1234567890',
+     address: '111 Example Street',
+     website: 'example.com'}
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {name: '',
+     phone: '',
+     address: '',
+     website: ''}
   }
 
   let(:valid_session) { {} }
@@ -79,14 +85,14 @@ RSpec.describe RestaurantsController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { name: 'New Name'}
       }
 
       it "updates the requested restaurant" do
         restaurant = Restaurant.create! valid_attributes
         put :update, {:id => restaurant.to_param, :restaurant => new_attributes}, valid_session
         restaurant.reload
-        skip("Add assertions for updated state")
+        expect(restaurant.name).to eq('New Name')
       end
 
       it "assigns the requested restaurant as @restaurant" do
