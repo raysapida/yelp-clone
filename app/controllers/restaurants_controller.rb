@@ -11,6 +11,11 @@ class RestaurantsController < ApplicationController
   # GET /restaurants/1.json
   def show
     @reviews = Review.where(restaurant_id: @restaurant.id)
+    if @reviews.blank?
+      @avg_rating = 0
+    else
+      @avg_rating = @reviews.average(:rating).round(2)
+    end
   end
 
   # GET /restaurants/new
@@ -63,13 +68,13 @@ class RestaurantsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_restaurant
-      @restaurant = Restaurant.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_restaurant
+    @restaurant = Restaurant.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def restaurant_params
-      params.require(:restaurant).permit(:name, :address, :phone, :website, :image)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def restaurant_params
+    params.require(:restaurant).permit(:name, :address, :phone, :website, :image)
+  end
 end
