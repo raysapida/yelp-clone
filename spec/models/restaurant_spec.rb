@@ -5,4 +5,5 @@ RSpec.describe Restaurant, type: :model do
   it {should validate_presence_of :address}
   it {should validate_presence_of :phone}
   it {should validate_presence_of :website}
+  it {should have_many :reviews}
 end
