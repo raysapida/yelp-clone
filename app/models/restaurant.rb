@@ -1,6 +1,8 @@
 class Restaurant < ActiveRecord::Base
   mount_uploader :image, ImageUploader
 
+  searchkick
+
   has_many :reviews
 
   validates_presence_of :name, :address, :phone, :website, :image
