@@ -6,7 +6,7 @@
       <%= @restaurant.name %>
       </h2>
 
-      <div class="star-rating" data-score= <%= @avg_rating %> ></div> 
+      <div class="star-rating" data-score= <%= @avg_rating %> ></div>
       <p><%= "#{@reviews.length} reviews" %></p>
 
       <p>
@@ -24,6 +24,14 @@
       <%= link_to @restaurant.website, @restaurant.website %>
       </p>
     <%= link_to "Write a Review", new_restaurant_review_path(@restaurant), class: "btn btn-primary" %>
+
+    <iframe
+      width="450"
+      height="250"
+      frameborder="0" style="border:0"
+      src="https://www.google.com/maps/embed/v1/place?key=API_KEY
+      &q=<%= @restaurant.address.parameterize %>&zoom=14">
+    </iframe>
   </div>
   <div class="col-md-9">
     <% if @reviews.blank? %>
