@@ -4,9 +4,10 @@ RSpec.describe RestaurantsController, type: :controller do
 
   let(:valid_attributes) {
     {name: 'Example',
-     phone: '1234567890',
-     address: '111 Example Street',
-     website: 'example.com'}
+     phone: '(123) 456-7890',
+     address: '111 Example Street, City, ST 12345',
+     image: File.new(Rails.root+'spec/factories/rails.png'),
+     website: 'http://example.com'}
   }
 
   let(:invalid_attributes) {
