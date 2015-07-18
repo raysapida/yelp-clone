@@ -6,10 +6,13 @@ FactoryGirl.define do
     f.last_name { Faker::Name.last_name }
 
     f.email { Faker::Internet.email }
-    f.profile_name { Faker::Internet.user_name.gsub(/[.]/, "_") }
 
     pass = Faker::Internet.password
     f.password { pass }
     f.password_confirmation { pass }
+
+    factory :admin do
+      admin true
+    end
   end
 end

@@ -1,12 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe RestaurantsController, type: :controller do
+  let(:admin) { create(:admin) }
 
   let(:valid_attributes) {
     {name: 'Example',
      phone: '(123) 456-7890',
      address: '111 Example Street, City, ST 12345',
-     image: File.new(Rails.root+'spec/factories/rails.png'),
+     image: Rack::Test::UploadedFile.new("#{Rails.root}/spec/factories/rails.png", 'image/png'),
      website: 'http://example.com'}
   }
 
@@ -37,6 +38,7 @@ RSpec.describe RestaurantsController, type: :controller do
 
   describe "GET #new" do
     it "assigns a new restaurant as @restaurant" do
+      sign_in :user, admin
       get :new, {}, valid_session
       expect(assigns(:restaurant)).to be_a_new(Restaurant)
     end
@@ -44,6 +46,7 @@ RSpec.describe RestaurantsController, type: :controller do
 
   describe "GET #edit" do
     it "assigns the requested restaurant as @restaurant" do
+      sign_in :user, admin
       restaurant = Restaurant.create! valid_attributes
       get :edit, {:id => restaurant.to_param}, valid_session
       expect(assigns(:restaurant)).to eq(restaurant)
@@ -54,17 +57,20 @@ RSpec.describe RestaurantsController, type: :controller do
     context "with valid params" do
       it "creates a new Restaurant" do
         expect {
+          sign_in :user, admin
           post :create, {:restaurant => valid_attributes}, valid_session
         }.to change(Restaurant, :count).by(1)
       end
 
       it "assigns a newly created restaurant as @restaurant" do
+        sign_in :user, admin
         post :create, {:restaurant => valid_attributes}, valid_session
         expect(assigns(:restaurant)).to be_a(Restaurant)
         expect(assigns(:restaurant)).to be_persisted
       end
 
       it "redirects to the created restaurant" do
+        sign_in :user, admin
         post :create, {:restaurant => valid_attributes}, valid_session
         expect(response).to redirect_to(Restaurant.last)
       end
@@ -72,11 +78,13 @@ RSpec.describe RestaurantsController, type: :controller do
 
     context "with invalid params" do
       it "assigns a newly created but unsaved restaurant as @restaurant" do
+        sign_in :user, admin
         post :create, {:restaurant => invalid_attributes}, valid_session
         expect(assigns(:restaurant)).to be_a_new(Restaurant)
       end
 
       it "re-renders the 'new' template" do
+        sign_in :user, admin
         post :create, {:restaurant => invalid_attributes}, valid_session
         expect(response).to render_template("new")
       end
@@ -88,6 +96,9 @@ RSpec.describe RestaurantsController, type: :controller do
       let(:new_attributes) {
         { name: 'New Name'}
       }
+      before(:each) do
+        sign_in :user, admin
+      end
 
       it "updates the requested restaurant" do
         restaurant = Restaurant.create! valid_attributes
@@ -110,6 +121,10 @@ RSpec.describe RestaurantsController, type: :controller do
     end
 
     context "with invalid params" do
+      before(:each) do
+        sign_in :user, admin
+      end
+
       it "assigns the restaurant as @restaurant" do
         restaurant = Restaurant.create! valid_attributes
         put :update, {:id => restaurant.to_param, :restaurant => invalid_attributes}, valid_session
@@ -125,6 +140,10 @@ RSpec.describe RestaurantsController, type: :controller do
   end
 
   describe "DELETE #destroy" do
+    before(:each) do
+      sign_in :user, admin
+    end
+
     it "destroys the requested restaurant" do
       restaurant = Restaurant.create! valid_attributes
       expect {
