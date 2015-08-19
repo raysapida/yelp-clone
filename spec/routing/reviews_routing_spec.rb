@@ -4,23 +4,28 @@ RSpec.describe ReviewsController, type: :routing do
   describe "routing" do
 
     it "routes to #new" do
-      expect(:get => "/reviews/new").to route_to("reviews#new")
+      # new_restaurant_review GET /restaurants/:restaurant_id/reviews/new(.:format)      reviews#new
+      expect(:get => "/restaurants/1/reviews/new").to route_to(controller: "reviews", action: "new", restaurant_id: "1")
     end
 
     it "routes to #edit" do
-      expect(:get => "/reviews/1/edit").to route_to("reviews#edit", :id => "1")
+      # edit_restaurant_review GET /restaurants/:restaurant_id/reviews/:id/edit(.:format) reviews#edit
+      expect(:get => "/restaurants/1/reviews/1/edit").to route_to(controller: "reviews", action: "edit", restaurant_id: "1", id: "1")
     end
 
     it "routes to #create" do
-      expect(:post => "/reviews").to route_to("reviews#create")
+      # restaurant_reviews POST   /restaurants/:restaurant_id/reviews(.:format) reviews#create
+      expect(:post => "/restaurants/1/reviews").to route_to(controller: "reviews", action: "create", restaurant_id: "1")
     end
 
     it "routes to #update" do
-      expect(:put => "/reviews/1").to route_to("reviews#update", :id => "1")
+      # restaurant_review PATCH /restaurants/:restaurant_id/reviews/:id(.:format)      reviews#update
+      expect(:put => "/restaurants/1/reviews/1").to route_to(controller: "reviews", action: "update", restaurant_id: "1", id: "1")
     end
 
     it "routes to #destroy" do
-      expect(:delete => "/reviews/1").to route_to("reviews#destroy", :id => "1")
+      # DELETE /restaurants/:restaurant_id/reviews/:id(.:format)      reviews#destroy
+      expect(:delete => "/restaurants/1/reviews/1").to route_to(controller: "reviews", action: "destroy", restaurant_id: "1", id: "1")
     end
 
   end
